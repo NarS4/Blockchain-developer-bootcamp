@@ -10,6 +10,7 @@ contract Exchange {
 	mapping(address => mapping(address => uint256)) public tokens;
 	mapping(uint256 => _Order) public orders;
 	uint256 public orderCount; //
+	mapping(uint256 => bool) public orderCancelled; // True or false (boolean / bool)
 
 	event Deposit(
 		address token, 
@@ -32,14 +33,24 @@ contract Exchange {
 		uint256 amountGive,
 		uint256 timestamp
 	);
+
+	event Cancel(
+		uint256 id,
+		address user,
+		address tokenGet,
+		uint256 amountGet, 
+		address tokenGive,
+		uint256 amountGive,
+		uint256 timestamp
+	);
 	
 	struct _Order {
 		//Attributes of an order
 		uint256 id; //Unique identifier for order
 		address user; //User who made order
-		address _tokenGet; //Address of the token they receive
+		address tokenGet; //Address of the token they receive
 		uint256 amountGet; //Amount they recieve 
-		address _tokenGive;//Address of token they give
+		address tokenGive;//Address of token they give
 		uint256 amountGive;//Amount they give
 		uint256 timestamp; //When order was created
 
@@ -97,8 +108,8 @@ contract Exchange {
 	) public {
 		//Prevents orders if tokens aren't on exchange
 		require(balanceOf(_tokenGive, msg.sender) >= _amountGive);
-		
-		//Create order
+
+		//Instantiate a new order
 		orderCount = orderCount +1;
 		orders[orderCount] = _Order(
 			orderCount, 
@@ -118,6 +129,31 @@ contract Exchange {
 			_amountGet, 
 			_tokenGive, 
 			_amountGive, 
+			block.timestamp
+		);
+	}
+
+	function cancelOrder(uint256 _id) public {
+		//Fetch order
+		_Order storage _order = orders[_id];
+
+		//Ensure the caller of the function is the owner of the order
+		require(address(_order.user) == msg.sender);
+
+		//Order must exist
+		require(_order.id == _id);
+
+		//Cancel the order
+		orderCancelled[_id] = true;
+
+		//Emit event
+		emit Cancel(
+			_order.id, 
+			msg.sender, 
+			_order.tokenGet, 
+			_order.amountGet, 
+			_order.tokenGive, 
+			_order.amountGive, 
 			block.timestamp
 		);
 	}
