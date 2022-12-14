@@ -51,11 +51,6 @@ const Balance = () => {
     
   }
 
-  //[x]Step 1: do transfer
-  //[x]Step 2: Notify add that transfer is pending
-  //[x]Step 3: Get confirmation from blockchain that transfer was successful
-  //[x]Step 4: Notify app that transfer was successful
-  //[x]Step 5: Handle transfer fails - notify app
   const depositHandler = (e, token) => {
     e.preventDefault()
 
@@ -67,6 +62,21 @@ const Balance = () => {
       setToken2TransferAmount(0)
     }
   }
+
+  const withdrawHandler = (e, token) => {
+    e.preventDefault()
+
+    if (token.address === tokens[0].address) {
+      transferTokens(provider, exchange, 'Withdraw', token, token1TransferAmount, dispatch)
+      setToken1TransferAmount(0)
+    } else {
+      setToken2TransferAmount(0)
+      transferTokens(provider, exchange, 'Withdraw', token, token2TransferAmount, dispatch)
+    }
+
+    console.log("withdrawing Tokens")
+  }
+
   useEffect(() => {
     if(exchange && tokens[0] && tokens[1] && account) {
     loadBalances(exchange, tokens, account, dispatch)
@@ -92,7 +102,7 @@ const Balance = () => {
           <p><small>Exchange</small><br />{exchangeBalances && exchangeBalances[0]}</p>
         </div>
 
-        <form onSubmit={(e) => depositHandler(e, tokens[0])}>
+        <form onSubmit={isDeposit ? (e) => depositHandler(e, tokens[0]) : (e) => withdrawHandler(e, tokens[0])}>
           <label htmlFor="token0">{symbols && symbols[0]} Amount</label>
           <input type="text" 
           id='token0' 
@@ -121,7 +131,7 @@ const Balance = () => {
           <p><small>Exchange</small><br />{exchangeBalances && exchangeBalances[1]}</p>
         </div>
 
-        <form onSubmit={(e) => depositHandler(e, tokens[1])}>
+        <form onSubmit={isDeposit ? (e) => depositHandler(e, tokens[1]) : (e) => withdrawHandler(e, tokens[1])}>
           <label htmlFor="token1"></label>
           <input 
             type="text" 
