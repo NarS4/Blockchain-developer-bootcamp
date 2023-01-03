@@ -1,20 +1,32 @@
 {
  "31337": {
  	"exchange": {
- 		"address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+ 		"address": "0x2f29553B4a33cE084224a2810806f75BAAB6E7Cb"
  	},
  	"DApp": {
  		"address": "0x5FbDB2315678afecb367f032d93F642f64180aa3"
  	},
  	"mETH": {
- 		"address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
+ 		"address": "0x14f34E7dEc2Ac4499F1889a0fBA6D69446322e02"
  	},
  	"mDAI": {
- 		"address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0"
+ 		"address": "0xfe9C787d6563d3E0154D2A0ED5dcE062BABbB329"
  	},
     "explorerURL": "#"
   },
-  "42": {
-    "explorerURL": "https://kovan.etherscan.io/"
+  "5": {
+    "exchange": {
+    "address": "0x01D4A57632066B8755c0768e3842FC4A6b307e87"
+  },
+  "DApp": {
+    "address": "0x28799eE15a416ac18C51340525e58ed126400152"
+  },
+  "mETH": {
+    "address": "0x4992c88A74862489f644E45Ca96D5379c1E2Fcd3"
+  },
+  "mDAI": {
+    "address": "0xFe57927AC1D7B52a84Ad0b4FF10FEC83cB62BE9F"
+  },
+    "explorerURL": "https://goerli.etherscan.io/"
   }
 }
